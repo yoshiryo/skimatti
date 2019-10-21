@@ -7,7 +7,7 @@ from json_response import spots,spot_id
 def get_spots(lat, lng, genre, skima_time):
     connector = MySQLdb.connect(
         user='root',
-        passwd='hoseitaro',
+        passwd='',
         host='localhost',
         db='skimatti_db',
         charset='utf8')
@@ -37,7 +37,7 @@ def get_spots(lat, lng, genre, skima_time):
 def add_spots(spot):
     connector = MySQLdb.connect(
         user='root',
-        passwd='hoseitaro',
+        passwd='',
         host='localhost',
         db='skimatti_db',
         charset='utf8')

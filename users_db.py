@@ -4,7 +4,7 @@ from json_response import users, user_id
 def get_user():
     connector = MySQLdb.connect(
         user='root',
-        passwd='hoseitaro',
+        passwd='',
         host='localhost',
         db='skimatti_db',
         charset='utf8')
@@ -23,7 +23,7 @@ def get_user():
 def add_user(user):
     connector = MySQLdb.connect(
         user='root',
-        passwd='hoseitaro',
+        passwd='',
         host='localhost',
         db='skimatti_db',
         charset='utf8')
