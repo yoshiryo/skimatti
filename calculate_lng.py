@@ -1,4 +1,4 @@
-from math import  pi, cos, radians, floor
+from math import  pi, cos, radians
 
 def get_min_lng(lat, lng, skima_time):
     skima_distance = skima_time * 80

@@ -1,11 +1,13 @@
 import random
 
-def spots(result):
+def spots(l1):
+    """
     random_spots = tuple(random.sample(result, 2))
+    """
 
     response_list = []
 
-    for row in random_spots:
+    for row in l1:
         store_id = row[0]
         name = row[1]
         latitude = row[2]
