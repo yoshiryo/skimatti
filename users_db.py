@@ -1,13 +1,14 @@
 import MySQLdb
+from db import DB
 from json_response import users, user_id
 
 def get_user():
     connector = MySQLdb.connect(
-        user='root',
-        passwd='hoseitaro',
-        host='localhost',
-        db='skimatti_db',
-        charset='utf8')
+        user = DB.user,
+        passwd = DB.password,
+        host = DB.host,
+        db = DB.name,
+        charset = DB.charset)
 
     cursor = connector.cursor()
     sql = "select * from users;"
@@ -22,11 +23,11 @@ def get_user():
 
 def add_user(user):
     connector = MySQLdb.connect(
-        user='root',
-        passwd='hoseitaro',
-        host='localhost',
-        db='skimatti_db',
-        charset='utf8')
+        user = DB.user,
+        passwd = DB.password,
+        host = DB.host,
+        db = DB.name,
+        charset = DB.charset)
 
     cursor = connector.cursor()
     sql = "insert into users value (0, '%s', '%s');" % (user.name , user.gender)

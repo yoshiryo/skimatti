@@ -64,11 +64,11 @@ def get_spots(lat, lng, genre, skima_time):
 
 def add_spots(spot):
     connector = MySQLdb.connect(
-        user='root',
-        passwd='hoseitaro',
-        host='localhost',
-        db='skimatti_db',
-        charset='utf8')
+        user = DB.user,
+        passwd = DB.password,
+        host = DB.host,
+        db = DB.name,
+        charset = DB.charset)
 
     cursor = connector.cursor()
     sql = "insert into spots value (0, '%s', '%s', '%s', '%s');" % (spot.name, spot.lat, spot.lng, spot.genre)
