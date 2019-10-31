@@ -1,14 +1,13 @@
 import MySQLdb
 from db import DB
-from json_response import users, user_id
+from json_response import response_users, user_id
 
 def get_user():
     connector = MySQLdb.connect(
         user = DB.user,
         passwd = DB.password,
         host = DB.host,
-        db = DB.name,
-        charset = DB.charset)
+        db = DB.name)
 
     cursor = connector.cursor()
     sql = "select * from users;"
@@ -18,7 +17,7 @@ def get_user():
     cursor.close
     connector.close
 
-    return users(result)
+    return response_users(result)
 
 
 def add_user(user):
@@ -26,8 +25,7 @@ def add_user(user):
         user = DB.user,
         passwd = DB.password,
         host = DB.host,
-        db = DB.name,
-        charset = DB.charset)
+        db = DB.name)
 
     cursor = connector.cursor()
     sql = "insert into users value (0, '%s', '%s');" % (user.name , user.gender)
