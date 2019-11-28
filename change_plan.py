@@ -62,5 +62,3 @@ def plan(spot_id, date_time):
     s.enterabs(et1, 1, change_plan_on, argument=(spot_id,))
     s.enterabs(et2, 1, change_plan_off, argument=(spot_id,))
     s.run()
-
-    
