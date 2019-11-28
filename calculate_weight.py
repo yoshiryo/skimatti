@@ -29,4 +29,3 @@ def weights_list(plan_list):
             weight_list.append(1/parameter)
 
     return weight_list
- 
