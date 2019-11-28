@@ -1,6 +1,9 @@
 import random
+import numpy as np
 
+from  logger import logging, get_session_id
 from calculate_distance import get_distance
+from calculate_weight import weights_list
 
 
 def response_spots(spots, visited_spots, lat, lng, skima_time, spots_amount):
@@ -9,6 +12,8 @@ def response_spots(spots, visited_spots, lat, lng, skima_time, spots_amount):
 
     visited_list = []
 
+    plan_list = []
+
     for row in visited_spots:
         spot_id = row[1]
         visited_list.append(spot_id)
@@ -16,13 +21,16 @@ def response_spots(spots, visited_spots, lat, lng, skima_time, spots_amount):
     for row in spots:
         spot_id = row[0]
         name = row[1]
-        spot_lat = row[2]
-        spot_lng = row[3]
+        spot_lng = row[2]
+        spot_lat = row[3]
         genre = row[4]
-        
+        stay_time = row[5]
+        comment = row[6]
+        plan = row[7]
+
         if spot_id in visited_list:
             continue
-   
+
         else:
             if lat is None or lng is None:
                 position = {
@@ -34,12 +42,16 @@ def response_spots(spots, visited_spots, lat, lng, skima_time, spots_amount):
                     "spot_id": spot_id,
                     "name": name,
                     "position": position,
-                    "genre": genre
+                    "genre": genre,
+                    "stay_time": stay_time,
+                    "comment": comment,
+                    "plan": plan
                 }
 
                 response_list.append(response)
-                
-            elif ( skima_time * 80 ) >= get_distance(lat, lng, spot_lat, spot_lng):
+                plan_list.append(plan)
+
+            elif ( (skima_time - stay_time) / 2 * 60 ) >= get_distance(lat, lng, spot_lat, spot_lng):
                 position = {
                     "latitude": spot_lat,
                     "longitude": spot_lng
@@ -49,19 +61,36 @@ def response_spots(spots, visited_spots, lat, lng, skima_time, spots_amount):
                     "spot_id": spot_id,
                     "name": name,
                     "position": position,
-                    "genre": genre
+                    "genre": genre,
+                    "stay_time": stay_time,
+                    "comment": comment,
+                    "plan": plan
                 }
 
                 response_list.append(response)
+                plan_list.append(plan)
 
-    if spots_amount is None or len(response_list) < spots_amount:
-        random_list = tuple(random.sample(response_list, len(response_list)))
-        return {"spots": random_list }
+    if len(response_list) == 0:
+        return {"spots": response_list }
     
-    else:
-        random_list = tuple(random.sample(response_list, spots_amount))
-        return {"spots": random_list } 
 
+    elif spots_amount is None:
+        if len(response_list) < 4:
+            random_list = tuple(np.random.choice(response_list, size = len(response_list), replace=False, p = weights_list(plan_list)))
+            return {"spots": random_list }
+
+        else:
+            random_list = tuple(np.random.choice(response_list, size = 4, replace=False, p = weights_list(plan_list)))
+            return {"spots": random_list }
+
+    else:
+        if len(response_list) < spots_amount:
+            random_list = tuple(np.random.choice(response_list, size = len(response_list), replace=False, p = weights_list(plan_list)))
+            return {"spots": random_list }
+
+        else:
+            random_list = tuple(np.random.choice(response_list, size = spots_amount, replace=False, p = weights_list(plan_list)))
+            return {"spots": random_list }
 
 def response_visited_spots(visited_spots):
     response_list = []
@@ -76,7 +105,7 @@ def response_visited_spots(visited_spots):
         }
 
         response_list.append(response)
-        
+
     return {"visited_spots": response_list }
 
 
@@ -86,7 +115,7 @@ def spot_id(spots):
         response = {
             "spot_id": spot_id
         }
-    
+
     return response
 
 
@@ -96,7 +125,7 @@ def visited_spot_id(visited_spots):
         response = {
             "spot_id": spot_id
         }
-    
+
     return response
 
 
@@ -105,12 +134,12 @@ def response_users(result):
 
     for row in result:
         user_id = row[0]
-        name = row[1]
+        age = row[1]
         gender = row[2]
 
         response = {
             "user_id" : user_id,
-            "name" : name,
+            "age" : age,
             "gender" : gender
         }
 
@@ -118,11 +147,23 @@ def response_users(result):
     return {"users": response_list }
 
 
-def user_id(result):
+def response_user_id(result):
     for row in result:
         user_id = row[0]
         response = {
             "user_id":user_id
         }
+
+    return response
+
+
+def response_plan(result):
+    for row in result:
+        plan = row[7]
+        response = {
+            "plan":plan
+        }
+
+    return response
+
     
-    return response    
