@@ -2,7 +2,7 @@ import MySQLdb
 import sys
 
 from logger import get_session_id, logging
-from db import DB
+from schemas.db import DB
 from json_response import response_spots, spot_id, response_visited_spots, visited_spot_id, response_plan
 
 

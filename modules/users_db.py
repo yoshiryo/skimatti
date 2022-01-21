@@ -1,7 +1,7 @@
 import MySQLdb
 
 from logger import get_session_id, logging
-from db import DB
+from schemas.db import DB
 from json_response import response_users, response_user_id
 
 def list_users():

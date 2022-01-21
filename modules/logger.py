@@ -2,7 +2,7 @@ import uuid
 
 import MySQLdb
 
-from db import DB
+from schemas.db import DB
 
 def get_session_id():
     return uuid.uuid4().hex
@@ -24,11 +24,11 @@ def logging(user_id, api_path, session_id = None):
 
 def log_init():
     connector = MySQLdb.connect(
-        user=db.user,
-        passwd=db.password,
-        host=db.host,
-        db=db.name,
-        charset=db.charset)
+        user=DB.user,
+        passwd=DB.password,
+        host=DB.host,
+        db=DB.name,
+        charset=DB.charset)
 
     cursor = connector.cursor()
     sql = 'delete from log;'
@@ -40,11 +40,11 @@ def log_init():
 
 def get_travel_time(session_id):
     connector = MySQLdb.connect(
-        user=db.user,
-        passwd=db.password,
-        host=db.host,
-        db=db.name,
-        charset=db.charset)
+        user=DB.user,
+        passwd=DB.password,
+        host=DB.host,
+        db=DB.name,
+        charset=DB.charset)
 
     cursor = connector.cursor()
     sql = 'select time_stamp from log where session_id = "%s";' % session_id

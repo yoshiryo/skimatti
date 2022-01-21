@@ -1,7 +1,7 @@
 import MySQLdb
 import sched, time, datetime
 
-from db import DB
+from schemas.db import DB
 
 
 def change_plan_on(spot_id):
